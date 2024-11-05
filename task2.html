@@ -1,0 +1,243 @@
+<!DOCTYPE >
+<html >
+<head>
+  <title>Task2</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      background-color: #f4f4f4;
+    }
+
+    .container {
+      display: grid;
+      grid-template-rows: auto 1fr auto;
+      min-height: 100vh;
+      max-width: 800px;
+      width: 100%;
+      background-color: white;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .navbar {
+      display: flex;
+      background-color: #333;
+      color: white;
+      padding: 10px;
+      justify-content: space-around;
+    }
+
+    .navbar a {
+      color: white;
+      text-decoration: none;
+      padding: 10px;
+    }
+
+    .content {
+      padding: 20px;
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 20px;
+    }
+
+    .contact-form {
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .contact-form h2 {
+      text-align: center;
+    }
+
+    .contact-form input,
+    .contact-form textarea {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      font-size: 16px;
+    }
+
+    .contact-form button {
+      width: 100%;
+      padding: 10px;
+      border: none;
+      border-radius: 4px;
+      background-color: #28a745;
+      color: #fff;
+      font-size: 18px;
+      cursor: pointer;
+    }
+
+    .contact-form button:hover {
+      background-color: #218838;
+    }
+
+    .error {
+      color: red;
+      font-size: 14px;
+      display: none;
+    }
+
+    .todo-container {
+      max-width: 300px;
+      width: 100%;
+      margin: 0 auto;
+    }
+
+    .todo-container input[type="text"] {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 10px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+    }
+
+    .todo-container ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    .todo-container ul li {
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      margin-bottom: 5px;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .delete {
+      background-color: #e3342f;
+      color: white;
+      border: none;
+      padding: 2px 6px;
+      cursor: pointer;
+    }
+
+    .footer {
+      text-align: center;
+      padding: 10px;
+      background-color: #333;
+      color: white;
+    }
+
+    @media (max-width: 600px) {
+      .navbar {
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <div class="navbar">
+      <a href="#">Home</a>
+      <a href="#contact">Contact</a>
+      <a href="#todo">To-Do List</a>
+    </div>
+
+    <div class="content">
+      <section id="contact" class="contact-form">
+        <h2>Contact Us</h2>
+        <form id="contactForm">
+          <label for="name">Name:</label>
+          <input type="text" id="name" name="name" required>
+          <span class="error" id="nameError">Name is required</span>
+
+          <label for="email">Email:</label>
+          <input type="email" id="email" name="email" required>
+          <span class="error" id="emailError">Enter a valid email address</span>
+
+          <label for="message">Message:</label>
+          <textarea id="message" name="message" rows="4" required></textarea>
+          <span class="error" id="messageError">Message is required</span>
+
+          <button type="submit">Submit</button>
+        </form>
+      </section>
+
+      <section id="todo" class="todo-container">
+        <h2>To-Do List</h2>
+        <input type="text" id="taskInput" placeholder="Enter a new task">
+        <ul id="taskList"></ul>
+      </section>
+    </div>
+
+    <div class="footer">
+      &copy; ASHOK WEBSITE - _ -
+    </div>
+  </div>
+
+  <script>
+    document.getElementById("contactForm").addEventListener("submit", function(event) {
+      let valid = true;
+
+      const name = document.getElementById("name");
+      const nameError = document.getElementById("nameError");
+      if (name.value.trim() === "") {
+        nameError.style.display = "block";
+        valid = false;
+      } else {
+        nameError.style.display = "none";
+      }
+
+      const email = document.getElementById("email");
+      const emailError = document.getElementById("emailError");
+      const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
+      if (!emailPattern.test(email.value.trim())) {
+        emailError.style.display = "block";
+        valid = false;
+      } else {
+        emailError.style.display = "none";
+      }
+
+      const message = document.getElementById("message");
+      const messageError = document.getElementById("messageError");
+      if (message.value.trim() === "") {
+        messageError.style.display = "block";
+        valid = false;
+      } else {
+        messageError.style.display = "none";
+      }
+
+      if (!valid) {
+        event.preventDefault();
+      }
+    });
+
+    const taskInput = document.getElementById('taskInput');
+    const taskList = document.getElementById('taskList');
+
+    taskInput.addEventListener('keyup', function(event) {
+      if (event.key === 'Enter' && taskInput.value.trim() !== '') {
+        addTask(taskInput.value);
+        taskInput.value = '';
+      }
+    });
+
+    function addTask(task) {
+      const li = document.createElement('li');
+      li.textContent = task;
+
+      const deleteButton = document.createElement('button');
+      deleteButton.textContent = 'X';
+      deleteButton.classList.add('delete');
+      deleteButton.onclick = () => li.remove();
+
+      li.appendChild(deleteButton);
+      taskList.appendChild(li);
+    }
+  </script>
+
+</body>
+</html>
