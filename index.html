@@ -1,29 +1,40 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Simple Webpage</title>
+    <title>Interactive Quiz and Joke Web Page</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+    <div class="container">
+        <header>
+            <h1> Quiz Competition</h1>
+            <p>Test your knowledge with our quiz!</p>
+        </header>
+        
+        <main>
+           
+            <section class="card">
+                <h2>Interactive Quiz</h2>
+                <div id="quiz-container">
+                    <p id="question"></p>
+                    <div id="answers-container">
+                        <button class="btn" onclick="checkAnswer(0)">Answer 1</button>
+                        <button class="btn" onclick="checkAnswer(1)">Answer 2</button>
+                        <button class="btn" onclick="checkAnswer(2)">Answer 3</button>
+                        <button class="btn" onclick="checkAnswer(3)">Answer 4</button>
+                    </div>
+                </div>
+                <p id="result"></p>
+            </section>
 
-    <header>
-        <h1>Welcome to My Simple Webpage</h1>
-        <p>This is a basic example of a webpage using HTML, CSS, and JavaScript.</p>
-    </header>
-
-    <section>
-        <h2>About This Page</h2>
-        <p>This is My First Task.</p>
-        <img src="first.jpg">
-    </section>
-
-    <section>
-        <h2>Learn More</h2>
-        <p>Web development involves creating and maintaining websites and web applications. It ranges from developing simple static pages to complex dynamic applications that run on the web. The process typically includes designing the user interface, writing code, and managing databases. It's a blend of creativity and technical skills, combining knowledge of HTML, CSS, JavaScript, and other programming languages to create functional and aesthetically pleasing digital experiences.
-             <a href="https://google.com" >Google</a></p>
-    </section>
-
-    <button onclick="showAlert()">Click Me!</button>
+            
+            <section class="card">
+                <h2>Joke</h2>
+                <button class="btn" onclick="fetchJoke()">Tell Me a Joke</button>
+                <p id="joke"></p>
+            </section>
+        </main>
+    </div>
 
     <script src="script.js"></script>
 </body>
